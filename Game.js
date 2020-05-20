@@ -1,6 +1,6 @@
-const Player = require('./player');
-const Deck = require('./deck');
-const Card = require('./card');
+const Player = require('./Player');
+const Deck = require('./Deck');
+const Card = require('./Card');
 
 function Game(code) {
   this.code = code;

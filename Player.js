@@ -1,4 +1,4 @@
-const Deck = require('./deck');
+const Deck = require('./Deck');
 const { ranks, setNames } = require('./constants/constants.js');
 
 function Player(id, name) {
