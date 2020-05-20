@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Tabs, Button, Modal } from 'antd';
-import { QuestionOutlined } from '@ant-design/icons';
+import { HeartFilled, QuestionOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import '../style/Home.css';
 import GameForm from './GameForm.js';
@@ -239,7 +239,7 @@ export default class Home extends React.Component {
           </Col>
           <div className="footerRow">
             <span className="footer-info">
-              Made with &#10084; by{' '}
+              Made with <HeartFilled style={{ color: 'red' }} /> by{' '}
               <a
                 href="https://www.linkedin.com/in/praneethalla/"
                 target="_blank"

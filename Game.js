@@ -13,6 +13,7 @@ function Game(code) {
   this.declaredSetsTeam2 = [];
   this.log = "Let's start the game!";
   this.declareMessage = "";
+  this.transferMessage = "";
   this.deck = new Deck();
 }
 
@@ -185,6 +186,7 @@ Game.prototype.transfer = function transfer(
   if (sourcePlayer.isTurn) {
     sourcePlayer.isTurn = false;
     targetPlayer.isTurn = true;
+    this.transferMessage = `${sourcePlayerName} transferred the turn to ${targetPlayerName}`;
   }
 };
 

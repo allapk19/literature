@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Col, Button, Modal, Radio, Select, Tabs, message } from 'antd';
 import {
+  HeartFilled,
   BellOutlined,
   SwapOutlined,
   QuestionOutlined,
@@ -50,7 +51,6 @@ export default class Game extends React.Component {
       declareSet: 'Select Set',
       declaredSetsTeamOne: [],
       declaredSetsTeamTwo: [],
-      declareMessage: '',
       declareState: [false, false, false, false, false, false],
     };
   }
@@ -59,17 +59,13 @@ export default class Game extends React.Component {
     let teamOne = [];
     let teamTwo = [];
     let arr = this.props.game.players;
-    console.log(arr);
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].team === 1) {
         teamOne.push(arr[i]);
       } else if (arr[i].team === 2) {
         teamTwo.push(arr[i]);
       }
-      console.log(arr[i].name);
-      console.log(this.props.playerName);
       if (arr[i].name === this.props.playerName) {
-        console.log('is Leader ');
         this.setState({
           cards: arr[i].hand,
           isTurn: arr[i].isTurn,
@@ -105,6 +101,9 @@ export default class Game extends React.Component {
         message.success(this.props.game.declareMessage);
       }
     }
+    if (this.props.game.transferMessage !== prevProps.game.transferMessage) {
+      message.info(this.props.game.transferMessage);
+    }
 
     let teamOne = [];
     let teamTwo = [];
@@ -124,7 +123,6 @@ export default class Game extends React.Component {
         teamTwo.push(arr[i]);
       }
       if (arr[i].name === this.props.playerName) {
-        console.log('hello');
         cards = arr[i].hand;
         isTurn = arr[i].isTurn;
         availableCards = arr[i].availableCards;
@@ -184,6 +182,7 @@ export default class Game extends React.Component {
   //Ask Modal Events
   showAskModal = () => {
     this.setState({
+      askSet: 'Select Set',
       askVisible: true,
     });
   };
@@ -199,13 +198,10 @@ export default class Game extends React.Component {
   };
 
   playerClicked = (e) => {
-    console.log(e.target.value);
     askedPlayer = e.target.value;
   };
 
   handleAsk = (e) => {
-    console.log(askedPlayer);
-    console.log(this.state.askedCard);
     if (this.state.askedCard.suit !== '' && askedPlayer != null) {
       let card = this.state.askedCard;
       let source = this.props.playerName;
@@ -219,7 +215,7 @@ export default class Game extends React.Component {
           availableSetCards: this.state.availableCards[
             this.state.askedCard.set
           ],
-          askSet: asked ? this.state.askSet : '',
+          askSet: asked ? this.state.askSet : 'Select Set',
         });
         this.setState({
           askedCard: {
@@ -233,7 +229,6 @@ export default class Game extends React.Component {
   };
 
   handleSetSelect = (e) => {
-    console.log(e);
     this.setState({
       askSet: e,
       availableSetCards: this.state.availableCards[e],
@@ -269,7 +264,7 @@ export default class Game extends React.Component {
       }
     }
 
-    console.log(this.state.declareMap);
+    
     if (Object.keys(this.state.declareMap).length === 6) {
       let cards = this.state.declareMap;
       let player = this.props.playerName;
@@ -298,7 +293,6 @@ export default class Game extends React.Component {
   };
 
   handleDeclareSelect = (e) => {
-    console.log(allSets[e]);
 
     let d = this.state.declareState;
 
@@ -375,7 +369,6 @@ export default class Game extends React.Component {
   };
 
   handleCancel = (e) => {
-    console.log(e);
     this.setState({
       askVisible: false,
       declareVisible: false,
@@ -547,11 +540,7 @@ export default class Game extends React.Component {
                       style={{ width: 150 }}
                       placeholder="Select Set"
                       onChange={this.handleSetSelect}
-                      value={
-                        this.state.askSet === ''
-                          ? 'Select Set'
-                          : this.state.askSet
-                      }
+                      value={this.state.askSet}
                     >
                       {this.state.availableSets.map((set) => (
                         <Option value={set}>{set}</Option>
@@ -563,7 +552,7 @@ export default class Game extends React.Component {
                     justify="center"
                     style={{ marginBottom: '20px' }}
                   >
-                    {this.state.askSet !== '' &&
+                    {this.state.askSet !== 'Select Set' &&
                       this.state.availableSetCards.map((card) => (
                         <Card
                           type="ask"
@@ -640,7 +629,7 @@ export default class Game extends React.Component {
                             <Radio.Group
                               onChange={this.handleDeclareMap}
                               data-index={index}
-                              name={card.rank + "_" + card.suit}
+                              name={index}
                               buttonStyle="solid"
                               defaultValue={this.props.playerName}
                               disabled
@@ -670,7 +659,7 @@ export default class Game extends React.Component {
                                 data-index={index}
                                 buttonStyle="solid"
                                 defaultValue=''
-                                name={card.rank + "_" + card.suit}
+                                name={index}
                               >
                                 {this.props.game.players.map((player, i) => {
                                   if (player.team === this.state.team) {
@@ -813,7 +802,7 @@ export default class Game extends React.Component {
             </div>
             <div className="footerRow">
               <span className="footer-info">
-                Made with &#10084;by{' '}
+                Made with <HeartFilled style={{ color: 'red' }} /> by{' '}  
                 <a
                   href="https://www.linkedin.com/in/praneethalla/"
                   target="_blank"

@@ -142,6 +142,8 @@
 .log {
   margin-bottom: 5%;
   text-align: center;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .buttonrow {

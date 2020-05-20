@@ -53,10 +53,10 @@ export default class TeamInfo extends React.Component {
             renderItem={(item) => {
               if (item.name === this.props.playerTurn) {
                 return <List.Item>
-                    <div style={{ fontWeight: 'bold'}}>
+                    <div style={{ color: '#1890FF' }}>
                       {item.name}
                     </div>
-                    <div style={{ fontWeight: 'bold', position: 'relative', bottom: '2px' }}>
+                    <div style={{ color: '#1890FF', position: 'relative', bottom: '2px' }}>
                       {item.hand.length}
                     </div>
                   </List.Item>
