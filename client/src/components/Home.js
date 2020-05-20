@@ -18,7 +18,7 @@ export default class Home extends React.Component {
 
   render() {
     return (
-      <Row className="bg" align="middle" justify="center">
+      <Row className="bg homeBG" align="middle" justify="center">
         <img
           className="homeImg"
           src={logo}
@@ -150,7 +150,7 @@ export default class Home extends React.Component {
           </Col>
           <div className="footerRow">
             <span className="footer-info">
-              Made with &#10084;by{' '}
+              Made with &#10084; by {' '}
               <a
                 href="https://www.linkedin.com/in/praneethalla/"
                 target="_blank"

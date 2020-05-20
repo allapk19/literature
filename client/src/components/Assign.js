@@ -47,6 +47,7 @@ export default class Assign extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log("update");
     let teamOne = [];
     let teamTwo = [];
     let unassigned = [];
@@ -65,9 +66,10 @@ export default class Assign extends React.Component {
         leader = arr[i].leader;
       }
     }
+
     if (
-      teamOne.length !== prevState.teamOne.length ||
-      teamTwo.length !== prevState.teamTwo.length ||
+      !this.arraysEqual(teamOne, prevState.teamOne) ||
+      !this.arraysEqual(teamTwo, prevState.teamTwo) ||
       unassigned.length !== prevState.unassigned.length ||
       leader !== prevState.leader
     ) {
@@ -78,6 +80,18 @@ export default class Assign extends React.Component {
         leader: leader,
       });
     }
+  }
+
+  arraysEqual = (_arr1, _arr2) => {
+    if (!Array.isArray(_arr1) || ! Array.isArray(_arr2) || _arr1.length !== _arr2.length)
+      return false;
+    var arr1 = _arr1.concat().sort();
+    var arr2 = _arr2.concat().sort();
+    for (var i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i])
+        return false;
+    }
+    return true;
   }
 
   move = (source, destination, droppableSource, droppableDestination) => {
@@ -133,6 +147,10 @@ export default class Assign extends React.Component {
       this.props.socket.emit('start');
     }
   };
+
+  randomizeTeams = () => {
+    this.props.socket.emit('randomize');
+  }
 
   render() {
     return (
@@ -239,14 +257,24 @@ export default class Assign extends React.Component {
           </DragDropContext>
         </Row>
         {this.state.leader && (
-          <Button
-            className="assignButton"
-            type="primary"
-            onClick={this.startGame}
-            size="large"
-          >
-            Start Game
-          </Button>
+          <div>
+            <Button
+              className="assignButton"
+              type="default"
+              onClick={this.randomizeTeams}
+              size="large"
+            >
+              Randomize Teams
+            </Button>
+            <Button
+              className="assignButton"
+              type="primary"
+              onClick={this.startGame}
+              size="large"
+            >
+              Start Game
+            </Button>
+          </div>
         )}
       </Row>
     );
