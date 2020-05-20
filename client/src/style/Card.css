@@ -1,0 +1,82 @@
+.cardwrapper {
+  width: 100px;
+  margin-bottom: 5px;
+}
+
+.askwrapper {
+  width: 80px;
+  margin-bottom: 5px;
+}
+
+.cardwrapper:not(:last-child) {
+  margin-right: 5px;
+}
+
+.askwrapper:not(:last-child) {
+  margin-right: 5px;
+}
+
+[type='radio'] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* IMAGE STYLES */
+[type='radio'] + img {
+  cursor: pointer;
+}
+
+/* CHECKED STYLES */
+[type='radio']:checked + img {
+  box-shadow: 0 0 0 1.5pt #1890ff;
+  border-radius: 7.5px;
+}
+
+.cardrow {
+  display: flex;
+  flex-direction: row;
+  padding: 0 5px;
+  justify-content: center;
+  max-height: 335px;
+  overflow-y: scroll;
+}
+
+.cardrow::-webkit-scrollbar {
+  width: 0 !important;
+}
+
+@media (max-width: 767px) {
+  .cardrow {
+    display: flex;
+    flex-direction: row;
+    padding: 0 5px;
+    justify-content: center;
+    max-height: 160px;
+    overflow-y: scroll;
+  }
+
+  .cardrow::-webkit-scrollbar {
+    width: 0 !important;
+  }
+}
+
+@media (max-width: 375px) {
+  .cardrow {
+    display: flex;
+    flex-direction: row;
+    padding: 0 5px;
+    justify-content: center;
+    max-height: 93px;
+    overflow-y: scroll;
+  }
+
+  .cardrow::-webkit-scrollbar {
+    width: 0 !important;
+  }
+
+  .cardwrapper {
+    width: 60px;
+  }
+}

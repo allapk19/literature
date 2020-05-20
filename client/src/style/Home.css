@@ -1,0 +1,429 @@
+.panel {
+  border-radius: 10px;
+  box-shadow: 0px 6px 15px 0px #8e8e8e;
+  background-color: #ffffff;
+}
+
+.gameCol > .panel {
+  height: 100%;
+}
+.bg {
+  flex-direction: column;
+  height: 100vh;
+}
+
+.lit-logo {
+  width: 200px;
+  height: 40.67px;
+  margin: 30px;
+}
+
+.homeRow {
+  width: 100vw;
+}
+
+.footerRow {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2vh;
+  text-align: center;
+}
+
+.homeRow > .footerRow {
+  margin-top: 5vh;
+}
+
+.footer-info {
+  font-weight: 400;
+  color: black;
+}
+
+.homePanel {
+  margin-right: 10px;
+  height: 400px;
+  padding-top: 25px;
+  width: 350px;
+}
+
+.declared-sets {
+  margin-top: 20px;
+}
+
+.declared-sets:not(:last-child) {
+  margin-right: 3px;
+}
+
+.set-label {
+  border-radius: 7.5px;
+  border: 1px solid gray;
+  padding: 2px 5px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  display: inline-block;
+}
+
+.disabled {
+  pointer-events: none;
+}
+
+.gameRow {
+  width: 100%;
+  flex-direction: row;
+}
+.gameRow .teamCol {
+  height: 80vh;
+  margin-left: 30px;
+  display: flex;
+  flex-direction: column;
+}
+.teamCol > :first-child {
+  margin-bottom: 20px;
+}
+.gameRow .gameCol {
+  margin-left: 30px;
+}
+.gameCol .gamePanel {
+  flex: 1;
+  padding-top: 10px;
+  margin-bottom: 20px;
+  height: 100%;
+}
+
+.declareRow:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.teamPanel {
+  flex: 1;
+  height: 50%;
+}
+.teamPanel > .teamHeader {
+  width: 100%;
+  padding: 15px 15px 0 15px;
+  height: 20%;
+}
+.teamPanel > .teamHeader > div:first-child {
+  float: left;
+  font-size: 2em;
+}
+.teamPanel > .teamHeader > div:nth-child(2) {
+  float: right;
+  font-size: 2em;
+}
+.teamPanel > .members {
+  width: 100%;
+  height: 80%;
+  padding: 10px 25px 0 25px;
+}
+.teamPanel .ant-list-item {
+  padding: 3px 0;
+}
+.teamPanel .declared-sets {
+  width: 100%;
+  display: block;
+  font-size: 1em;
+}
+.yourTeam {
+  border: 1.5px solid #1890ff;
+}
+
+.buttonrow > button {
+  width: 150px;
+  text-align: center;
+  border-radius: 7.5px;
+}
+
+.buttonrow > button:not(:last-child) {
+  margin-right: 20px;
+}
+
+.log {
+  margin-bottom: 5%;
+  text-align: center;
+}
+
+.buttonrow {
+  margin-top: 5%;
+}
+
+h1.team-assign {
+  margin-bottom: 2vh;
+  color: black;
+  text-decoration: underline;
+  font-weight: 200;
+}
+
+.team-header {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+}
+.assign-panel {
+  text-align: center;
+  padding: 50px 4%;
+  height: 50vh;
+  margin: 2vw;
+  width: 25vw;
+  overflow-y: scroll;
+  position: relative;
+}
+.assign-panel:first-child {
+  margin-left: 8.3333vw;
+}
+.assign-panel::-webkit-scrollbar {
+  width: 0 !important;
+}
+
+.assign-name {
+  border-radius: 10px;
+  box-shadow: 0px 6px 15px 0px #8e8e8e;
+  background-color: #3f4757;
+  color: white;
+  font-size: 20px;
+  width: 100%;
+  margin: 10px auto;
+  padding: 10px 0;
+}
+
+.assignButton {
+  width: 200px;
+  text-align: center;
+  border-radius: 7.5px;
+  margin-top: 2vh;
+}
+
+.homeImg {
+  width: 550px;
+}
+
+li.ant-list-item > div:first-child {
+  width: 85%;
+}
+
+.info-btn-wrapper {
+  position: absolute;
+  right: 30px;
+  top: 30px;
+}
+
+@media (max-height: 504px) {
+  .lit-logo {
+    width: 150px;
+    height: 30.5025px;
+    margin: 15px 30px;
+  }
+
+  .teamCol {
+    display: inline !important;
+    width: 100%;
+    height: 35vh !important;
+    margin: 0 30px;
+  }
+  .teamPanel {
+    display: inline-flex !important;
+    width: 48%;
+    height: 100%;
+  }
+  .teamPanel:first-child {
+    margin-right: 4%;
+  }
+  .gameCol {
+    width: 100%;
+    margin: 20px 30px;
+    height: 46vh;
+  }
+
+  .homePanel {
+    width: 90%;
+  }
+  .log {
+    margin-bottom: 2%;
+  }
+  .homeImg {
+    width: 80vw;
+  }
+
+  .footerRow {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1vh;
+    text-align: center;
+  }
+
+  .footer-info {
+    font-weight: 400;
+    font-size: 1em;
+    color: black;
+  }
+}
+
+@media (max-width: 767px) {
+  .instr-header {
+    font-size: 1.5em;
+  }
+
+  .team-header {
+    font-size: 1.65em;
+  }
+
+  .lit-logo {
+    width: 150px;
+    height: 30.5025px;
+  }
+
+  .teamCol {
+    display: inline !important;
+    width: 100%;
+    height: 35vh !important;
+    margin: 0 30px;
+  }
+  .teamPanel {
+    display: inline-flex !important;
+    width: 48%;
+    height: 100%;
+  }
+  .teamPanel:first-child {
+    margin-right: 4%;
+  }
+  .gameCol {
+    width: 100%;
+    margin: 20px 30px;
+    height: 46vh;
+  }
+
+  .homePanel {
+    width: 90%;
+  }
+  .log {
+    margin-bottom: 2%;
+  }
+  .homeImg {
+    width: 80vw;
+  }
+
+  .footerRow {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1vh;
+    text-align: center;
+  }
+
+  .footer-info {
+    font-weight: 400;
+    font-size: 1em;
+    color: black;
+  }
+}
+
+@media (max-width: 575px) {
+  .lit-logo {
+    width: 150px;
+    height: 30.5025px;
+  }
+
+  .homePanel {
+    width: 85%;
+  }
+  .homeImg {
+    width: 80vw;
+  }
+
+  .homeRow {
+    display: flex;
+  }
+
+  .homeCol {
+    width: 50%;
+  }
+
+  .buttonrow > button {
+    width: 120px;
+    text-align: center;
+    border-radius: 7.5px;
+  }
+  .buttonrow > button:not(:last-child) {
+    margin-right: 3px;
+  }
+
+  .footerRow {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1vh;
+    text-align: center;
+  }
+
+  .footer-info {
+    font-weight: 400;
+    font-size: 0.8em;
+    color: black;
+  }
+}
+
+@media (max-width: 438px) {
+  .info-btn-wrapper {
+    position: absolute;
+    right: 30px;
+    top: 13px;
+  }
+
+  .log {
+    font-size: 1.5em;
+  }
+
+  .homePanel {
+    width: 85%;
+  }
+  .homeImg {
+    width: 80vw;
+  }
+
+  .homeRow {
+    display: flex;
+  }
+
+  .homeCol {
+    width: 50%;
+  }
+
+  .buttonrow > button {
+    width: 95px;
+    text-align: center;
+    border-radius: 7.5px;
+    padding: 2px;
+  }
+  .buttonrow > button:not(:last-child) {
+    margin-right: 3px;
+  }
+
+  .lit-logo {
+    width: 150px;
+    height: 30.5025px;
+  }
+
+  .teamPanel > .teamHeader {
+    width: 100%;
+    padding: 15px 15px 0 15px;
+    height: 20%;
+  }
+  .teamPanel > .teamHeader > div:first-child {
+    float: left;
+    font-size: 1.5em;
+  }
+  .teamPanel > .teamHeader > div:nth-child(2) {
+    float: right;
+    font-size: 1.5em;
+  }
+
+  .gameCol > .panel {
+    height: 90%;
+  }
+}
