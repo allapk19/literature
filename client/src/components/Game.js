@@ -51,6 +51,7 @@ export default class Game extends React.Component {
       declaredSetsTeamOne: [],
       declaredSetsTeamTwo: [],
       declareMessage: '',
+      declareState: [false, false, false, false, false, false],
     };
   }
 
@@ -241,16 +242,21 @@ export default class Game extends React.Component {
 
   //Declare Modal Events
   showDeclareModal = () => {
+
     this.setState({
+      declareState: [false, false, false, false, false, false],
       declareVisible: true,
+      declareSet: '',
+      declareCards: [],
     });
+
   };
 
   handleDeclare = (e) => {
     e.preventDefault();
 
     for (let i = 0; i < this.state.declareCards.length; i++) {
-      if (this.hasCard(this.state.declareCards[i], i)) {
+      if (this.hasCard(this.state.declareCards[i])) {
 
         let map = this.state.declareMap;
 
@@ -293,10 +299,21 @@ export default class Game extends React.Component {
 
   handleDeclareSelect = (e) => {
     console.log(allSets[e]);
-    this.setState({
-      declareCards: allSets[e],
-      declareSet: e,
-    });
+
+    let d = this.state.declareState;
+
+    for (let i = 0; i < allSets[e].length; i++) {
+     
+      d[i] = this.hasCard(allSets[e][i]);
+    }
+
+    this.setState((prevState) => ({declareCards: []}), () => {
+      setTimeout(this.setState({
+        declareState: d,
+        declareCards: allSets[e],
+        declareSet: e,
+      }), 0.1);
+    }); 
   };
 
   handleDeclareMap = (e) => {
@@ -312,7 +329,7 @@ export default class Game extends React.Component {
     this.setState({ declareMap: map });
   };
 
-  hasCard = (card, index) => {
+  hasCard = (card) => {
     for (let i = 0; i < this.state.cards.length; i++) {
       if (this.state.cards[i].rank === card.rank && this.state.cards[i].suit === card.suit) {
         return true;
@@ -619,26 +636,26 @@ export default class Game extends React.Component {
                           </span>
                         </Col>
                         <Col span={15}>
-                          {this.hasCard(card, index) ?
+                          {this.state.declareState[index] ?
                             <Radio.Group
                               onChange={this.handleDeclareMap}
                               data-index={index}
-                              name={index}
+                              name={card.rank + "_" + card.suit}
                               buttonStyle="solid"
                               defaultValue={this.props.playerName}
                               disabled
                             >
-                              {this.props.game.players.map((player) => {
+                              {this.props.game.players.map((player, i) => {
                                 if (player.team === this.state.team) {
                                   if (player.name === this.props.playerName) {
                                     return (
-                                      <Radio.Button  style={{backgroundColor: '#1890FF'}} value={player.name}>
+                                      <Radio.Button checked={true} style={{backgroundColor: '#1890FF', color: '#FFFFFF'}} value={player.name}>
                                         {player.name}
                                       </Radio.Button>
                                     );
                                   } else {
                                     return (
-                                      <Radio.Button  style={{backgroundColor: '#FFFFFF'}} value={player.name}>
+                                      <Radio.Button style={{backgroundColor: '#FFFFFF', color: 'rgba(0, 0, 0, 0.65)'}} value={player.name}>
                                         {player.name}
                                       </Radio.Button>
                                     );
@@ -651,17 +668,26 @@ export default class Game extends React.Component {
                             : <Radio.Group
                                 onChange={this.handleDeclareMap}
                                 data-index={index}
-                                name={index}
                                 buttonStyle="solid"
+                                defaultValue=''
+                                name={card.rank + "_" + card.suit}
                               >
-                                {this.props.game.players.map((player) => {
+                                {this.props.game.players.map((player, i) => {
                                   if (player.team === this.state.team) {
-                                    return (
-                                      <Radio.Button value={player.name}>
-                                        {player.name}
-                                      </Radio.Button>
-                                    );
-                                  }
+                                    if (player.name === this.props.playerName) {
+                                      return (
+                                        <Radio.Button value={player.name} disabled>
+                                          {player.name}
+                                        </Radio.Button>
+                                      );
+                                    } else {
+                                      return (
+                                        <Radio.Button value={player.name}>
+                                          {player.name}
+                                        </Radio.Button>
+                                      );
+                                    }
+                                  } 
 
                                   return <span></span>;
                                 })}
