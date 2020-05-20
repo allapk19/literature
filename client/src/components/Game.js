@@ -12,7 +12,7 @@ import TeamInfo from './TeamInfo.js';
 import Board from './Board';
 import Card from './Card';
 import allSets from '../constants/constants.js';
-import ReactHtmlParser from 'react-html-parser'; 
+import ReactHtmlParser from 'react-html-parser';
 
 const icons = require.context('../resources/icons', true);
 
@@ -251,7 +251,6 @@ export default class Game extends React.Component {
 
     for (let i = 0; i < this.state.declareCards.length; i++) {
       if (this.hasCard(this.state.declareCards[i], i)) {
-
         let map = this.state.declareMap;
 
         map[i] = {
@@ -314,13 +313,16 @@ export default class Game extends React.Component {
 
   hasCard = (card, index) => {
     for (let i = 0; i < this.state.cards.length; i++) {
-      if (this.state.cards[i].rank === card.rank && this.state.cards[i].suit === card.suit) {
+      if (
+        this.state.cards[i].rank === card.rank &&
+        this.state.cards[i].suit === card.suit
+      ) {
         return true;
       }
     }
 
     return false;
-  }
+  };
 
   getPath = (suit) => {
     if (suit === 'Joker') {
@@ -441,7 +443,7 @@ export default class Game extends React.Component {
                 align="middle"
                 style={{ flexDirection: 'column' }}
               >
-                <h1 className="log">{ReactHtmlParser (this.state.log)}</h1>
+                <h1 className="log">{ReactHtmlParser(this.state.log)}</h1>
                 <Board cards={this.state.cards} />
                 <div className="buttonrow">
                   <Button
@@ -559,7 +561,7 @@ export default class Game extends React.Component {
                       ))}
                   </Row>
                   <Row align="middle" justify="center">
-                    <p>{ReactHtmlParser (this.state.log)}</p>
+                    <p>{ReactHtmlParser(this.state.log)}</p>
                   </Row>
                 </Modal>
                 <Modal
@@ -619,7 +621,7 @@ export default class Game extends React.Component {
                           </span>
                         </Col>
                         <Col span={15}>
-                          {this.hasCard(card, index) ?
+                          {this.hasCard(card, index) ? (
                             <Radio.Group
                               onChange={this.handleDeclareMap}
                               data-index={index}
@@ -632,13 +634,19 @@ export default class Game extends React.Component {
                                 if (player.team === this.state.team) {
                                   if (player.name === this.props.playerName) {
                                     return (
-                                      <Radio.Button  style={{backgroundColor: '#1890FF'}} value={player.name}>
+                                      <Radio.Button
+                                        style={{ backgroundColor: '#1890FF' }}
+                                        value={player.name}
+                                      >
                                         {player.name}
                                       </Radio.Button>
                                     );
                                   } else {
                                     return (
-                                      <Radio.Button  style={{backgroundColor: '#FFFFFF'}} value={player.name}>
+                                      <Radio.Button
+                                        style={{ backgroundColor: '#FFFFFF' }}
+                                        value={player.name}
+                                      >
                                         {player.name}
                                       </Radio.Button>
                                     );
@@ -648,25 +656,26 @@ export default class Game extends React.Component {
                                 return <span></span>;
                               })}
                             </Radio.Group>
-                            : <Radio.Group
-                                onChange={this.handleDeclareMap}
-                                data-index={index}
-                                name={index}
-                                buttonStyle="solid"
-                              >
-                                {this.props.game.players.map((player) => {
-                                  if (player.team === this.state.team) {
-                                    return (
-                                      <Radio.Button value={player.name}>
-                                        {player.name}
-                                      </Radio.Button>
-                                    );
-                                  }
+                          ) : (
+                            <Radio.Group
+                              onChange={this.handleDeclareMap}
+                              data-index={index}
+                              name={index}
+                              buttonStyle="solid"
+                            >
+                              {this.props.game.players.map((player) => {
+                                if (player.team === this.state.team) {
+                                  return (
+                                    <Radio.Button value={player.name}>
+                                      {player.name}
+                                    </Radio.Button>
+                                  );
+                                }
 
-                                  return <span></span>;
-                                })}
-                              </Radio.Group>
-                          } 
+                                return <span></span>;
+                              })}
+                            </Radio.Group>
+                          )}
                         </Col>
                       </Row>
                     ))}
