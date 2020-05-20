@@ -14,6 +14,8 @@ import Card from './Card';
 import allSets from '../constants/constants.js';
 import ReactHtmlParser from 'react-html-parser'; 
 
+const icons = require.context('../resources/icons', true);
+
 const { TabPane } = Tabs;
 const { Option } = Select;
 
@@ -320,6 +322,14 @@ export default class Game extends React.Component {
     return false;
   }
 
+  getPath = (suit) => {
+    if (suit === 'Joker') {
+      return './Jokers-icon.png';
+    } 
+
+    return `./${suit}.png`;
+  }
+
   //Transfer Modal Events
   showTransferModal = () => {
     this.setState({
@@ -604,7 +614,8 @@ export default class Game extends React.Component {
                           }}
                         >
                           <span style={{ marginRight: '10px' }}>
-                            {this.toString(card)}
+                            {card.rank + ' '}
+                            <img width={card.suit === 'Joker' ? '25px': '15px'} src={icons(this.getPath(card.suit))} alt={'card'} />
                           </span>
                         </Col>
                         <Col span={15}>
