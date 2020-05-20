@@ -196,19 +196,19 @@ io.on('connection', (socket) => {
 
           let remove = true;
           // remove the game if everyone is disconnected
-          // for (let i = 0; i < connectionGame.players.length; i++) {
-          //   if (connectionGame.players[i].connected === true) {
-          //     remove = false;
-          //   }
-          // }
-          // if (remove) {
-          //   for (let i = 0; i < games.length; i++) {
-          //     if (games[i].code === connectionGame.code) {
-          //       console.log('Game removed');
-          //       games.splice(i, 1);
-          //     }
-          //   }
-          // }
+          for (let i = 0; i < connectionGame.players.length; i++) {
+            if (connectionGame.players[i].connected === true) {
+              remove = false;
+            }
+          }
+          if (remove) {
+            for (let i = 0; i < games.length; i++) {
+              if (games[i].code === connectionGame.code) {
+                console.log('Game removed');
+                games.splice(i, 1);
+              }
+            }
+          }
         } else {
           connectionGame.removePlayer(connectionPlayer.name);
           io.to(connectionGame.code).emit('gameData', {
