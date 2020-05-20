@@ -1,5 +1,6 @@
 import React from 'react';
-import { Row, Col, Tabs } from 'antd';
+import { Row, Col, Tabs, Button, Modal } from 'antd';
+import { QuestionOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import '../style/Home.css';
 import GameForm from './GameForm.js';
@@ -13,8 +14,21 @@ export default class Home extends React.Component {
 
     this.state = {
       play: false,
+      helpVisible: false,
     };
   }
+
+  showHelpModal = () => {
+    this.setState({
+      helpVisible: true,
+    });
+  };
+
+  handleCancel = () => {
+    this.setState({
+      helpVisible: false,
+    });
+  };
 
   render() {
     return (
@@ -28,6 +42,13 @@ export default class Home extends React.Component {
         <Row className="homeRow">
           <Col className="homeCol" sm={12} align="right">
             <div align="left" className="panel homePanel">
+              <div className="home-info-btn-wrapper">
+                <Button
+                  onClick={this.showHelpModal}
+                  shape="circle"
+                  icon={<QuestionOutlined />}
+                ></Button>
+              </div>
               <Row
                 justify="center"
                 align="middle"
@@ -56,8 +77,76 @@ export default class Home extends React.Component {
                 </Tabs>
               </Row>
             </div>
+            <Modal
+              title="How To Play"
+              visible={this.state.helpVisible}
+              onCancel={this.handleCancel}
+              style={{ padding: 0 }}
+              footer={[]}
+            >
+              <Tabs defaultActiveKey="1">
+                <TabPane tab="Setup" key="1">
+                  <p style={{ marginBottom: '3px' }}>
+                    <b>Players:</b> 6, 8, or 10
+                  </p>
+                  <p style={{ marginBottom: '3px' }}>
+                    <b>Deck:</b> 52 Card Deck + 2 Jokers
+                  </p>
+                  <p>
+                    Literature, or Fish, is a strategic turn-based card game.
+                    The game is comprised of two teams whose objective is to win
+                    5 sets. The game progresses when players ask for cards and
+                    declare sets. Players must keep track of transactions, as
+                    only the most recent transaction is displayed in the log.
+                  </p>
+                </TabPane>
+                <TabPane tab="Sets" key="2">
+                  <p>
+                    <b>Sets:</b> There are 9 sets in the game. "Low" sets are
+                    comprised of ranks 2-7 of a suit and "High" sets are
+                    comprised of ranks 9-A of a suit. The last set is comprised
+                    of all cards of rank 8 and the two jokers.
+                  </p>
+                </TabPane>
+                <TabPane tab="Ask" key="3">
+                  <p style={{ marginBottom: '3px' }}>
+                    <b>Ask:</b> On a players turn, they can ask a player of the
+                    opposite team whether or not they have a certain card. If
+                    they have the card, the card is transferred to the players
+                    hand, and it remains their turn. Otherwise, the turn is
+                    transferred to the player that was asked.
+                  </p>
+                  <p>
+                    Note: A player may only ask for a card if they possess
+                    another card from the same set. Also, a player may not ask
+                    for a card that they already possess.
+                  </p>
+                </TabPane>
+                <TabPane tab="Declare" key="4">
+                  <p style={{ marginBottom: '3px' }}>
+                    <b>Declare:</b> On a player's turn, they can choose to
+                    declare a set if they believe that all cards in a certain
+                    set are posessed by members of their team. When declaring, a
+                    player must correctly state where among their teammates all
+                    the cards in the chosen set are located. Keep in mind that
+                    during the game players will not be able to discuss their
+                    hands with any other player, so they must rely on their
+                    memory.
+                  </p>
+                  <p style={{ marginBottom: '3px' }}>
+                    If a player declares correctly, all the cards in the
+                    declared set get taken off the board and they win a point
+                    for their team. Otherwise, the point goes to the other team.
+                  </p>
+                  <p>
+                    After declaring correctly, a player may also choose to
+                    transfer their turn to a teammate.
+                  </p>
+                </TabPane>
+              </Tabs>
+            </Modal>
           </Col>
-          <Col className="homeCol" sm={12}>
+          <Col className="homeCol homeCol-b" sm={12}>
             <div className="panel homePanel">
               <Row
                 justify="center"
@@ -150,7 +239,7 @@ export default class Home extends React.Component {
           </Col>
           <div className="footerRow">
             <span className="footer-info">
-              Made with &#10084; by {' '}
+              Made with &#10084; by{' '}
               <a
                 href="https://www.linkedin.com/in/praneethalla/"
                 target="_blank"
