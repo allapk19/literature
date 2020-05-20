@@ -189,10 +189,13 @@ h1.team-assign {
 }
 
 .assignButton {
-  width: 200px;
+  width: 170px;
   text-align: center;
   border-radius: 7.5px;
   margin-top: 2vh;
+}
+.assignButton:not(:last-child) {
+  margin-right: 20px;
 }
 
 .homeImg {
@@ -323,16 +326,26 @@ li.ant-list-item > div:first-child {
 }
 
 @media (max-width: 575px) {
+
   .lit-logo {
     width: 150px;
     height: 30.5025px;
   }
+  .ant-tabs-tabpane {
+    height: unset;
+  }
 
+  .homeBG {
+    height: unset;
+  }
   .homePanel {
     width: 85%;
+    margin: 10px auto;
   }
   .homeImg {
     width: 80vw;
+    margin-top: 5vh;
+    margin-bottom: 5vh !important;
   }
 
   .homeRow {
@@ -340,7 +353,8 @@ li.ant-list-item > div:first-child {
   }
 
   .homeCol {
-    width: 50%;
+    width: 100%;
+    text-align: center;
   }
 
   .buttonrow > button {
@@ -361,6 +375,11 @@ li.ant-list-item > div:first-child {
     text-align: center;
   }
 
+  .homeRow > .footerRow {
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+  }
+
   .footer-info {
     font-weight: 400;
     font-size: 0.8em;
@@ -377,21 +396,6 @@ li.ant-list-item > div:first-child {
 
   .log {
     font-size: 1.5em;
-  }
-
-  .homePanel {
-    width: 85%;
-  }
-  .homeImg {
-    width: 80vw;
-  }
-
-  .homeRow {
-    display: flex;
-  }
-
-  .homeCol {
-    width: 50%;
   }
 
   .buttonrow > button {
@@ -423,7 +427,4 @@ li.ant-list-item > div:first-child {
     font-size: 1.5em;
   }
 
-  .gameCol > .panel {
-    height: 90%;
-  }
 }

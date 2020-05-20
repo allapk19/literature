@@ -146,6 +146,28 @@ io.on('connection', (socket) => {
     });
   });
 
+  socket.on('randomize', () => {
+    let teamOneLength = 0;
+    let teamTwoLength = 0;
+    for (let i = 0; i < connectionGame.players.length; i++) {
+      if (teamOneLength < Math.ceil(connectionGame.players.length/2) && Math.floor(Math.random() * 2) == 0) {
+        connectionGame.players[i].team = 1;
+        teamOneLength ++;
+      } else {
+        if (teamTwoLength < Math.ceil(connectionGame.players.length/2)) {
+          connectionGame.players[i].team = 2;
+          teamTwoLength ++;
+        } else {
+          connectionGame.players[i].team = 1;
+          teamOneLength ++;
+        }
+      }
+    }
+    io.to(connectionGame.code).emit('gameData', {
+      game: connectionGame,
+    });
+  });
+
   socket.on('start', () => {
     connectionGame.start();
     io.to(connectionGame.code).emit('gameData', {
