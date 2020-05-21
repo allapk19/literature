@@ -19,12 +19,20 @@ export default class App extends React.Component {
       assign: false,
     };
     this.assign = this.assign.bind(this);
+    this.home = this.home.bind(this);
   }
 
   assign(playerName) {
     this.setState({
       assign: true,
       playerName: playerName,
+    });
+  }
+
+  home() {
+    this.setState({
+      assign: false,
+      play: false,
     });
   }
 
@@ -54,6 +62,7 @@ export default class App extends React.Component {
 
     this.socket.on('gameData', (data) => {
       this.setState({ game: data.game, play: data.game.started });
+      console.log(data.game);
     });
     this.socket.on('startNew', (data) => {
       this.setState({
@@ -73,6 +82,7 @@ export default class App extends React.Component {
             playerName={this.state.playerName}
             game={this.state.game}
             socket={this.socket}
+            home={this.home}
           />
         ) : this.state.assign ? (
           <Assign

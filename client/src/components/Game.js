@@ -429,6 +429,11 @@ export default class Game extends React.Component {
   newGame = () => {
     this.props.socket.emit('newGame');
   };
+  leaveGame = () => {
+    window.localStorage.removeItem('lit-game-user');
+    this.props.socket.emit('leaveGame');
+    this.props.home();
+  }
 
   toString = (card) => {
     return card.suit === 'Joker'
@@ -452,14 +457,22 @@ export default class Game extends React.Component {
             style={{
               position: 'absolute',
               right: '5vw',
-              top: '35px',
-              display: hasEnded,
+              top: '30px',
+              //display: hasEnded,
             }}
           >
             <Button
+              type="default"
+              size="large"
+              style={{ borderRadius: '7.5px', marginRight: '5px' }}
+              onClick={this.leaveGame}
+            >
+              Leave Game
+            </Button>
+            <Button
               type="primary"
               size="large"
-              style={{ borderRadius: '7.5px' }}
+              style={{ borderRadius: '7.5px', display: hasEnded }}
               onClick={this.newGame}
             >
               New Game

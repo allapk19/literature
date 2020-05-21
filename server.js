@@ -206,6 +206,30 @@ io.on('connection', (socket) => {
     });
   });
 
+  socket.on('leaveGame', () => {
+    connectionPlayer.sockets.splice(
+      connectionPlayer.sockets.indexOf(socket.id),
+      1
+    );
+    connectionPlayer.connected = false;
+
+    //remove the game if everyone is disconnected
+    let remove = true;
+    for (let i = 0; i < connectionGame.players.length; i++) {
+      if (connectionGame.players[i].connected === true) {
+        remove = false;
+      }
+    }
+    if (remove) {
+      for (let i = 0; i < games.length; i++) {
+        if (games[i].code === connectionGame.code) {
+          console.log('Game removed');
+          games.splice(i, 1);
+        }
+      }
+    }
+  });
+
   socket.on('disconnect', () => {
     if (connectionPlayer !== null) {
       connectionPlayer.sockets.splice(
@@ -218,19 +242,19 @@ io.on('connection', (socket) => {
 
           let remove = true;
           // remove the game if everyone is disconnected
-          for (let i = 0; i < connectionGame.players.length; i++) {
-            if (connectionGame.players[i].connected === true) {
-              remove = false;
-            }
-          }
-          if (remove) {
-            for (let i = 0; i < games.length; i++) {
-              if (games[i].code === connectionGame.code) {
-                console.log('Game removed');
-                games.splice(i, 1);
-              }
-            }
-          }
+          // for (let i = 0; i < connectionGame.players.length; i++) {
+          //   if (connectionGame.players[i].connected === true) {
+          //     remove = false;
+          //   }
+          // }
+          // if (remove) {
+          //   for (let i = 0; i < games.length; i++) {
+          //     if (games[i].code === connectionGame.code) {
+          //       console.log('Game removed');
+          //       games.splice(i, 1);
+          //     }
+          //   }
+          // }
         } else {
           connectionGame.removePlayer(connectionPlayer.name);
           io.to(connectionGame.code).emit('gameData', {

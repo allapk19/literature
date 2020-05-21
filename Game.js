@@ -29,7 +29,7 @@ Game.prototype.start = function start() {
 Game.prototype.clear = function clear() {
   for (let i = 0; i < this.players.length; i++) {
     this.players[i].hand = [];
-    this.players[i].turn = false;
+    this.players[i].isTurn = false;
   }
   this.scoreTeam1 = 0;
   this.scoreTeam2 = 0;
@@ -41,9 +41,6 @@ Game.prototype.clear = function clear() {
 
 Game.prototype.addPlayer = function addPlayer(id, name) {
   for (let i = 0; i < this.players.length; i++) {
-    if (this.players[i].id === id) {
-      return { error: 'You have already joined this game' };
-    }
     if (this.players[i].name === name) {
       if (this.players[i].connected === false) {
         this.players[i].connected = true;
