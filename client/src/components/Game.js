@@ -15,48 +15,48 @@ import Card from './Card';
 import allSets from '../constants/constants.js';
 import ReactHtmlParser from 'react-html-parser';
 import { GiSpeaker, GiSpeakerOff } from 'react-icons/gi'
-// import UIfx from 'uifx'; 
-// import correctFile from '../resources/sounds/correct.mp3';
-// import incorrectFile from '../resources/sounds/incorrect.wav';
-// import correctAskFile from '../resources/sounds/correctAsk.ogg';
-// import incorrectAskFile from '../resources/sounds/incorrectAsk.ogg';
-// import transferFile from '../resources/sounds/transfer.mp3';
+import UIfx from 'uifx'; 
+import correctFile from '../resources/sounds/correct.mp3';
+import incorrectFile from '../resources/sounds/incorrect.wav';
+import correctAskFile from '../resources/sounds/correctAsk.ogg';
+import incorrectAskFile from '../resources/sounds/incorrectAsk.ogg';
+import transferFile from '../resources/sounds/transfer.mp3';
 
-// const correctSound = new UIfx(
-//   correctFile,
-//   {
-//     volume: 1.0, // number between 0.0 ~ 1.0
-//     throttleMs: 100
-//   }
-// );
-// const incorrectSound = new UIfx(
-//   incorrectFile,
-//   {
-//     volume: 1.0, // number between 0.0 ~ 1.0
-//     throttleMs: 100
-//   }
-// )
-// const correctAskSound = new UIfx(
-//   correctAskFile,
-//   {
-//     volume: 1.0, // number between 0.0 ~ 1.0
-//     throttleMs: 100
-//   }
-// )
-// const incorrectAskSound = new UIfx(
-//   incorrectAskFile,
-//   {
-//     volume: 1.0, // number between 0.0 ~ 1.0
-//     throttleMs: 100
-//   }
-// )
-// const transferSound = new UIfx(
-//   transferFile,
-//   {
-//     volume: 1.0, // number between 0.0 ~ 1.0
-//     throttleMs: 100
-//   }
-// )
+const correctSound = new UIfx(
+  correctFile,
+  {
+    volume: 1.0, // number between 0.0 ~ 1.0
+    throttleMs: 100
+  }
+);
+const incorrectSound = new UIfx(
+  incorrectFile,
+  {
+    volume: 1.0, // number between 0.0 ~ 1.0
+    throttleMs: 100
+  }
+)
+const correctAskSound = new UIfx(
+  correctAskFile,
+  {
+    volume: 1.0, // number between 0.0 ~ 1.0
+    throttleMs: 100
+  }
+)
+const incorrectAskSound = new UIfx(
+  incorrectAskFile,
+  {
+    volume: 1.0, // number between 0.0 ~ 1.0
+    throttleMs: 100
+  }
+)
+const transferSound = new UIfx(
+  transferFile,
+  {
+    volume: 1.0, // number between 0.0 ~ 1.0
+    throttleMs: 100
+  }
+)
 
 const icons = require.context('../resources/icons', true);
 
@@ -136,14 +136,14 @@ export default class Game extends React.Component {
     if (this.props.game.declareMessage !== prevProps.game.declareMessage) {
       if (this.props.game.declareMessage.includes('incorrectly')) {
         message.error(this.props.game.declareMessage);
-        // if (this.state.useSound) {
-        //   incorrectSound.play();
-        // }
+        if (this.state.useSound) {
+          incorrectSound.play();
+        }
       } else {
         message.success(this.props.game.declareMessage);
-        // if (this.state.useSound) {
-        //   correctSound.play();
-        // }
+        if (this.state.useSound) {
+          correctSound.play();
+        }
       }
     }
     if (this.props.game.transferMessage !== prevProps.game.transferMessage) {
@@ -151,13 +151,13 @@ export default class Game extends React.Component {
     }
     if (this.props.game.sound.count !== prevProps.game.sound.count) {
       if (this.state.useSound) {
-        // if (this.props.game.sound.sound === "correctAsk") {
-        //   correctAskSound.play();
-        // } else if (this.props.game.sound.sound === "incorrectAsk") {
-        //   incorrectAskSound.play();
-        // } else if (this.props.game.sound.sound === "transfer") {
-        //   transferSound.play();
-        // }
+        if (this.props.game.sound.sound === "correctAsk") {
+          correctAskSound.play();
+        } else if (this.props.game.sound.sound === "incorrectAsk") {
+          incorrectAskSound.play();
+        } else if (this.props.game.sound.sound === "transfer") {
+          transferSound.play();
+        }
       }
     }
 
