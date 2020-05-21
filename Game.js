@@ -14,7 +14,9 @@ function Game(code) {
   this.log = "Let's start the game!";
   this.declareMessage = "";
   this.transferMessage = "";
+  this.sound = {count: 0, sound: ""};
   this.deck = new Deck();
+  this.canTransfer = false;
 }
 
 Game.prototype.start = function start() {
@@ -84,6 +86,7 @@ Game.prototype.ask = function ask(sourcePlayerName, targetPlayerName, card) {
     sourcePlayer.hand.length > 0 &&
     targetPlayer.hand.length > 0
   ) {
+    this.canTransfer = false;
     if (targetPlayer.hasCard(card)) {
       targetPlayer.removeFromHand(card);
       sourcePlayer.addToHand(card);
@@ -92,6 +95,7 @@ Game.prototype.ask = function ask(sourcePlayerName, targetPlayerName, card) {
       )} from <span style="color: #1890FF">${targetPlayerName}</span>`;
       sourcePlayer.allAvailableCards();
       targetPlayer.allAvailableCards();
+      this.sound = {count: this.sound.count + 1, sound: "correctAsk"};
       return true;
     } else {
       sourcePlayer.isTurn = false;
@@ -101,6 +105,7 @@ Game.prototype.ask = function ask(sourcePlayerName, targetPlayerName, card) {
       )} from <span style="color: #1890FF">${targetPlayerName}</span>`;
       sourcePlayer.allAvailableCards();
       targetPlayer.allAvailableCards();
+      this.sound = {count: this.sound.count + 1, sound: "incorrectAsk"};
       return false;
     }
   }
@@ -122,6 +127,11 @@ Game.prototype.declare = function declare(playerName, cards, set) {
 
         this.declareMessage = `${playerName} incorrectly declared the ${set}`;
         this.deleteCards(set);
+        if (player.hand.length == 0) {
+          this.canTransfer = true;
+        } else {
+          this.canTransfer = false;
+        }
         this.checkTeamNoCards(player);
         return false;
       }
@@ -137,24 +147,25 @@ Game.prototype.declare = function declare(playerName, cards, set) {
 
     this.declareMessage = `${playerName} correctly declared the ${set}`;
     this.deleteCards(set);
+    this.canTransfer = true;
     this.checkTeamNoCards(player);
     return true;
   }
 };
 
 Game.prototype.checkTeamNoCards = function checkTeamNoCards(player) {
-  let transfer = true;
+  let canTransfer = true;
   let otherTeamPlayers = [];
   for (let i = 0; i < this.players.length; i++) {
     if (this.players[i].team === player.team) {
       if (this.players[i].hand.length !== 0) {
-        transfer = false;
+        canTransfer = false;
       }
     } else {
       otherTeamPlayers.push(this.players[i]);
     }
   }
-  if (transfer) {
+  if (canTransfer) {
     player.isTurn = false;
     for (let i = 0; i < otherTeamPlayers.length; i++) {
       otherTeamPlayers[i].isTurn = true;
@@ -187,6 +198,7 @@ Game.prototype.transfer = function transfer(
     sourcePlayer.isTurn = false;
     targetPlayer.isTurn = true;
     this.transferMessage = `${sourcePlayerName} transferred the turn to ${targetPlayerName}`;
+    this.sound = {count: this.sound.count + 1, sound: "transfer"};
   }
 };
 

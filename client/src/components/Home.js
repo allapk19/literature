@@ -110,7 +110,7 @@ export default class Home extends React.Component {
                 </TabPane>
                 <TabPane tab="Ask" key="3">
                   <p style={{ marginBottom: '3px' }}>
-                    <b>Ask:</b> On a players turn, they can ask a player of the
+                    <b>Ask:</b> On a player's turn, they can ask a player of the
                     opposite team whether or not they have a certain card. If
                     they have the card, the card is transferred to the players
                     hand, and it remains their turn. Otherwise, the turn is
@@ -195,7 +195,7 @@ export default class Home extends React.Component {
                     style={{ height: '170px', overflowY: 'scroll' }}
                   >
                     <p style={{ marginBottom: '3px' }}>
-                      <b>Ask:</b> On a players turn, they can ask a player of
+                      <b>Ask:</b> On a player's turn, they can ask a player of
                       the opposite team whether or not they have a certain card.
                       If they have the card, the card is transferred to the
                       players hand, and it remains their turn. Otherwise, the

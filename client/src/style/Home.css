@@ -214,6 +214,12 @@ li.ant-list-item > div:first-child {
   top: 30px;
 }
 
+.sound-btn-wrapper {
+  position: absolute;
+  right: 65px;
+  top: 30px;
+}
+
 .home-info-btn-wrapper {
   display: none;
 }
@@ -274,6 +280,18 @@ li.ant-list-item > div:first-child {
 @media (max-width: 767px) {
   .instr-header {
     font-size: 1.5em;
+  }
+
+  .info-btn-wrapper {
+    position: absolute;
+    right: 30px;
+    top: 15px;
+  }
+
+  .sound-btn-wrapper {
+    position: absolute;
+    right: 65px;
+    top: 15px;
   }
 
   .team-header {
@@ -346,6 +364,12 @@ li.ant-list-item > div:first-child {
   .info-btn-wrapper {
     position: absolute;
     right: 30px;
+    top: 13px;
+  }
+
+  .sound-btn-wrapper {
+    position: absolute;
+    right: 65px;
     top: 13px;
   }
 

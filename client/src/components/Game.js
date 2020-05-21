@@ -13,7 +13,50 @@ import TeamInfo from './TeamInfo.js';
 import Board from './Board';
 import Card from './Card';
 import allSets from '../constants/constants.js';
-import ReactHtmlParser from 'react-html-parser'; 
+import ReactHtmlParser from 'react-html-parser';
+import { GiSpeaker, GiSpeakerOff } from 'react-icons/gi'
+import UIfx from 'uifx'; 
+import correctFile from '../resources/sounds/correct.mp3';
+import incorrectFile from '../resources/sounds/incorrect.wav';
+import correctAskFile from '../resources/sounds/correctAsk.ogg';
+import incorrectAskFile from '../resources/sounds/incorrectAsk.ogg';
+import transferFile from '../resources/sounds/transfer.mp3';
+
+const correctSound = new UIfx(
+  correctFile,
+  {
+    volume: 1.0, // number between 0.0 ~ 1.0
+    throttleMs: 100
+  }
+);
+const incorrectSound = new UIfx(
+  incorrectFile,
+  {
+    volume: 1.0, // number between 0.0 ~ 1.0
+    throttleMs: 100
+  }
+)
+const correctAskSound = new UIfx(
+  correctAskFile,
+  {
+    volume: 1.0, // number between 0.0 ~ 1.0
+    throttleMs: 100
+  }
+)
+const incorrectAskSound = new UIfx(
+  incorrectAskFile,
+  {
+    volume: 1.0, // number between 0.0 ~ 1.0
+    throttleMs: 100
+  }
+)
+const transferSound = new UIfx(
+  transferFile,
+  {
+    volume: 1.0, // number between 0.0 ~ 1.0
+    throttleMs: 100
+  }
+)
 
 const icons = require.context('../resources/icons', true);
 
@@ -52,6 +95,7 @@ export default class Game extends React.Component {
       declaredSetsTeamOne: [],
       declaredSetsTeamTwo: [],
       declareState: [false, false, false, false, false, false],
+      useSound: true,
     };
   }
 
@@ -74,11 +118,6 @@ export default class Game extends React.Component {
           availableSets: arr[i].sets,
           isLeader: arr[i].leader,
         });
-        if (arr[i].isTurn) {
-          if (arr[i].hand.length === 0) {
-            this.setState({ transfer: true });
-          }
-        }
       }
       if (arr[i].isTurn) {
         this.setState({ playerTurn: arr[i].name });
@@ -97,12 +136,29 @@ export default class Game extends React.Component {
     if (this.props.game.declareMessage !== prevProps.game.declareMessage) {
       if (this.props.game.declareMessage.includes('incorrectly')) {
         message.error(this.props.game.declareMessage);
+        if (this.state.useSound) {
+          incorrectSound.play();
+        }
       } else {
         message.success(this.props.game.declareMessage);
+        if (this.state.useSound) {
+          correctSound.play();
+        }
       }
     }
     if (this.props.game.transferMessage !== prevProps.game.transferMessage) {
       message.info(this.props.game.transferMessage);
+    }
+    if (this.props.game.sound.count !== prevProps.game.sound.count) {
+      if (this.state.useSound) {
+        if (this.props.game.sound.sound === "correctAsk") {
+          correctAskSound.play();
+        } else if (this.props.game.sound.sound === "incorrectAsk") {
+          incorrectAskSound.play();
+        } else if (this.props.game.sound.sound === "transfer") {
+          transferSound.play();
+        }
+      }
     }
 
     let teamOne = [];
@@ -114,7 +170,6 @@ export default class Game extends React.Component {
     let team = null;
     let playerTurn = null;
     let arr = this.props.game.players;
-    let transfer = prevState.transfer;
     let isLeader = false;
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].team === 1) {
@@ -129,11 +184,6 @@ export default class Game extends React.Component {
         team = arr[i].team;
         availableSets = arr[i].sets;
         isLeader = arr[i].leader;
-        if (isTurn) {
-          if (cards.length === 0) {
-            transfer = true;
-          }
-        }
       }
       if (arr[i].isTurn) {
         playerTurn = arr[i].name;
@@ -152,8 +202,7 @@ export default class Game extends React.Component {
         prevState.declaredSetsTeamOne.length ||
       this.props.game.declaredSetsTeam2.length !==
         prevState.declaredSetsTeamTwo.length ||
-      playerTurn !== prevState.playerTurn ||
-      transfer !== prevState.transfer
+      playerTurn !== prevState.playerTurn
     ) {
       this.setState({
         teamOneData: teamOne,
@@ -167,10 +216,15 @@ export default class Game extends React.Component {
         declaredSetsTeamOne: this.props.game.declaredSetsTeam1,
         declaredSetsTeamTwo: this.props.game.declaredSetsTeam2,
         playerTurn: playerTurn,
-        transfer: transfer,
         isLeader: isLeader,
       });
     }
+  }
+
+  toggleSound = () => {
+    this.setState({
+      useSound: !this.state.useSound,
+    })
   }
 
   showHelpModal = () => {
@@ -211,7 +265,6 @@ export default class Game extends React.Component {
           askVisible: asked,
           declareVisible: false,
           transferVisible: false,
-          transfer: false,
           availableSetCards: this.state.availableCards[
             this.state.askedCard.set
           ],
@@ -277,7 +330,6 @@ export default class Game extends React.Component {
           declareMap: new Array(6),
           declareCards: [],
           declareSet: '',
-          transfer: declare,
         });
       });
     }
@@ -286,7 +338,6 @@ export default class Game extends React.Component {
       askVisible: false,
       declareVisible: false,
       transferVisible: false,
-      transfer: true,
       declareCards: [],
       declareSet: '',
     });
@@ -357,12 +408,10 @@ export default class Game extends React.Component {
       let source = this.props.playerName;
       let target = transferPlayer;
       this.props.socket.emit('transfer', { source, target }, () => {
-        transferPlayer = null;
         this.setState({
           askVisible: false,
           declareVisible: false,
           transferVisible: false,
-          transfer: true,
         });
       });
     }
@@ -438,6 +487,13 @@ export default class Game extends React.Component {
           </Col>
           <Col lg={17} md={16} className="gameCol">
             <div className="panel">
+            <div className="sound-btn-wrapper">
+                <Button
+                  onClick={this.toggleSound}
+                  shape="circle"
+                  icon={this.state.useSound ? <GiSpeaker /> : <GiSpeakerOff />}
+                ></Button>
+              </div>
               <div className="info-btn-wrapper">
                 <Button
                   onClick={this.showHelpModal}
@@ -480,11 +536,11 @@ export default class Game extends React.Component {
                   </Button>
                   <Button
                     type={
-                      this.state.isTurn && this.state.transfer
+                      this.state.isTurn && this.props.game.canTransfer
                         ? 'primary'
                         : 'disabled'
                     }
-                    onClick={this.state.isTurn ? this.showTransferModal : ''}
+                    onClick={this.state.isTurn && this.props.game.canTransfer ? this.showTransferModal : ''}
                     size="large"
                   >
                     <SwapOutlined />
@@ -644,7 +700,7 @@ export default class Game extends React.Component {
                                     );
                                   } else {
                                     return (
-                                      <Radio.Button style={{backgroundColor: '#FFFFFF', color: 'rgba(0, 0, 0, 0.65)'}} value={player.name}>
+                                      <Radio.Button style={{backgroundColor: '#F5F5F5', color: 'rgba(0, 0, 0, 0.25)'}} value={player.name}>
                                         {player.name}
                                       </Radio.Button>
                                     );
@@ -762,7 +818,7 @@ export default class Game extends React.Component {
                     </TabPane>
                     <TabPane tab="Ask" key="3">
                       <p style={{ marginBottom: '3px' }}>
-                        <b>Ask:</b> On a players turn, they can ask a player of
+                        <b>Ask:</b> On a player's turn, they can ask a player of
                         the opposite team whether or not they have a certain
                         card. If they have the card, the card is transferred to
                         the players hand, and it remains their turn. Otherwise,
