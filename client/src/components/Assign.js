@@ -1,8 +1,9 @@
 import React from 'react';
-import { Row, Button, message } from 'antd';
+import { Row, Button, message, Tooltip } from 'antd';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import logo from '../lit-logo.png';
 import '../style/Home.css';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 export default class Assign extends React.Component {
   constructor(props) {
@@ -13,6 +14,7 @@ export default class Assign extends React.Component {
       teamTwo: [],
       unassigned: [],
       leader: false,
+      copiedText: "copy link"
     };
 
     this.startGame = this.startGame.bind(this);
@@ -152,6 +154,19 @@ export default class Assign extends React.Component {
     this.props.socket.emit('randomize');
   }
 
+  copyClicked = () => {
+    this.setState({ copiedText: "copied!" });
+  }
+
+  toolTipChange = (e) => {
+    if (e === false) {
+      setTimeout(this.updateCopyText, 100);
+    }
+  }
+  updateCopyText = () => {
+    this.setState({ copiedText: "copy link" });
+  }
+
   render() {
     return (
       <Row justify="middle" className="bg">
@@ -162,14 +177,24 @@ export default class Assign extends React.Component {
           style={{ marginBottom: '3vh', marginTop: '7vh' }}
         />
         {this.state.leader ? (
-          <h2 className="instr-header">
+          <h2 className="instr-header" style={{ textAlign: 'center' }}>
             Drag and drop names to assign teams below
           </h2>
         ) : (
-          <h2 className="instr-header">
+          <h2 className="instr-header" style={{ textAlign: 'center' }}>
             Waiting for the game leader to assign teams...
           </h2>
         )}
+        <h3 className="invite-header" style={{ textAlign: 'center' }}>
+          Invite your friends to join the game at:&nbsp;
+          <CopyToClipboard text={'literaturegame.com/' + this.props.game.code}>
+            <Tooltip onVisibleChange={this.toolTipChange} placement="bottom" title={this.state.copiedText}>
+              <span onClick={this.copyClicked} style={{ color: '#1890ff' }}>
+                {'literaturegame.com/' + this.props.game.code}
+              </span>
+            </Tooltip>
+          </CopyToClipboard>
+        </h3>
         <Row style={{ width: '100%', height: 'auto' }}>
           <DragDropContext onDragEnd={this.onDragEnd}>
             <Droppable droppableId="teamOne">

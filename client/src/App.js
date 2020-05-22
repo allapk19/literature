@@ -4,11 +4,14 @@ import Game from './components/Game';
 import Assign from './components/Assign';
 import './App.css';
 import io from 'socket.io-client';
+import { withRouter } from "react-router-dom";
 
 const connection =
   process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : undefined;
 
-export default class App extends React.Component {
+let code = "";
+
+class App extends React.Component {
   constructor(props) {
     super(props);
 
@@ -20,6 +23,9 @@ export default class App extends React.Component {
     };
     this.assign = this.assign.bind(this);
     this.home = this.home.bind(this);
+
+    code = this.props.match.params.code;
+    console.log(code);
   }
 
   assign(playerName) {
@@ -91,9 +97,11 @@ export default class App extends React.Component {
             socket={this.socket}
           />
         ) : (
-          <Home socket={this.socket} assign={this.assign} />
+          <Home socket={this.socket} assign={this.assign} code={code} />
         )}
       </div>
     );
   }
 }
+export default withRouter(App);
+

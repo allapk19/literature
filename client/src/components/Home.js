@@ -62,6 +62,7 @@ export default class Home extends React.Component {
                         assign={this.props.assign}
                         text="Join Game"
                         socket={this.props.socket}
+                        code={this.props.code}
                       />
                     }
                   </TabPane>
@@ -71,6 +72,7 @@ export default class Home extends React.Component {
                         assign={this.props.assign}
                         text="Create Game"
                         socket={this.props.socket}
+                        code={""}
                       />
                     }
                   </TabPane>

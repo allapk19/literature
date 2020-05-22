@@ -14,9 +14,6 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'client/build')));
-// app.get('/', function(req, res) {
-//   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-// });
 
 const port = process.env.PORT || 5000;
 
@@ -24,6 +21,20 @@ const server = http.createServer(app);
 const io = socketIO(server);
 
 let games = [];
+
+app.get('/:code', function (req, res) {
+  let codeFound = false;
+  for (let i = 0; i < games.length; i++) {
+    if (games[i].code === req.params.code) {
+      codeFound = true;
+    }
+  }
+  if (codeFound) {
+    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  } else {
+    res.redirect('/');
+  }
+});
 
 io.on('connection', (socket) => {
   let connectionPlayer = null;
@@ -241,20 +252,20 @@ io.on('connection', (socket) => {
           connectionPlayer.connected = false;
 
           let remove = true;
-          // remove the game if everyone is disconnected
-          // for (let i = 0; i < connectionGame.players.length; i++) {
-          //   if (connectionGame.players[i].connected === true) {
-          //     remove = false;
-          //   }
-          // }
-          // if (remove) {
-          //   for (let i = 0; i < games.length; i++) {
-          //     if (games[i].code === connectionGame.code) {
-          //       console.log('Game removed');
-          //       games.splice(i, 1);
-          //     }
-          //   }
-          // }
+          //remove the game if everyone is disconnected
+          for (let i = 0; i < connectionGame.players.length; i++) {
+            if (connectionGame.players[i].connected === true) {
+              remove = false;
+            }
+          }
+          if (remove) {
+            for (let i = 0; i < games.length; i++) {
+              if (games[i].code === connectionGame.code) {
+                console.log('Game removed');
+                games.splice(i, 1);
+              }
+            }
+          }
         } else {
           connectionGame.removePlayer(connectionPlayer.name);
           io.to(connectionGame.code).emit('gameData', {

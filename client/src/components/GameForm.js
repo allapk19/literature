@@ -8,6 +8,10 @@ export default class GameForm extends React.Component {
   onFinish = (values) => {
     let name = values.name;
     let code = values.gameCode;
+    if (!code) {
+      code = this.props.code;
+    }
+    console.log(code);
 
     if (this.props.text === 'Join Game') {
       this.props.socket.emit('join', { name, code }, (response) => {
@@ -80,7 +84,7 @@ export default class GameForm extends React.Component {
           name="gameCode"
           rules={[
             {
-              required: true,
+              required: this.props.code ? false : true,
               message: 'Please input the game code!',
             },
           ]}
@@ -93,6 +97,7 @@ export default class GameForm extends React.Component {
               />
             }
             placeholder="Game Code"
+            defaultValue={this.props.code}
           />
         </Form.Item>
 
