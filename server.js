@@ -222,7 +222,10 @@ io.on('connection', (socket) => {
       connectionPlayer.sockets.indexOf(socket.id),
       1
     );
-    connectionPlayer.connected = false;
+    if (connectionPlayer.sockets.length === 0) {
+      connectionPlayer.connected = false;
+    }
+    socket.leave(connectionGame.code);
 
     //remove the game if everyone is disconnected
     let remove = true;

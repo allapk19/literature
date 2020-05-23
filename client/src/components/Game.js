@@ -447,7 +447,7 @@ export default class Game extends React.Component {
       this.state.isLeader &&
       (this.props.game.scoreTeam1 >= 5 || this.props.game.scoreTeam2 >= 5)
     ) {
-      hasEnded = 'block';
+      hasEnded = 'inline';
     }
     return (
       <Row className="bg">
