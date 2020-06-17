@@ -462,10 +462,11 @@ export default class Game extends React.Component {
             }}
           >
             <Button
-              type="default"
+              type="primary"
               size="large"
               style={{ borderRadius: '7.5px', marginRight: '5px' }}
               onClick={this.leaveGame}
+              danger
             >
               Leave Game
             </Button>
