@@ -44,7 +44,7 @@ Game.prototype.addPlayer = function addPlayer(id, name) {
     if (this.players[i].name === name) {
       if (this.players[i].connected === false) {
         this.players[i].connected = true;
-        console.log(name + ' reconnected');
+        //console.log(name + ' reconnected');
         return { player: this.players[i] };
       }
       return { error: 'There is already a player with this name' };

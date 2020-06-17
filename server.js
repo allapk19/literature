@@ -44,13 +44,13 @@ io.on('connection', (socket) => {
     let codeFound = false;
     let playerFound = false;
 
-    console.log('attempting reconnect');
+    //console.log('attempting reconnect');
 
     for (let i = 0; i < games.length && !codeFound; i++) {
       if (games[i].code === game) {
         codeFound = true;
         connectionGame = games[i];
-        console.log('code found');
+        //console.log('code found');
 
         let players = games[i].players;
 
@@ -60,7 +60,7 @@ io.on('connection', (socket) => {
             players[j].connected = true;
             players[j].sockets.push(socket.id);
             connectionPlayer = players[j];
-            console.log(connectionPlayer);
+            //console.log(connectionPlayer);
 
             socket.join(game);
 
@@ -237,7 +237,7 @@ io.on('connection', (socket) => {
     if (remove) {
       for (let i = 0; i < games.length; i++) {
         if (games[i].code === connectionGame.code) {
-          console.log('Game removed');
+          //console.log('Game removed');
           games.splice(i, 1);
         }
       }
@@ -264,7 +264,7 @@ io.on('connection', (socket) => {
           if (remove) {
             for (let i = 0; i < games.length; i++) {
               if (games[i].code === connectionGame.code) {
-                console.log('Game removed');
+                //('Game removed');
                 games.splice(i, 1);
               }
             }

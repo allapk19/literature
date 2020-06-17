@@ -25,7 +25,7 @@ class App extends React.Component {
     this.home = this.home.bind(this);
 
     code = this.props.match.params.code;
-    console.log(code);
+    //console.log(code);
   }
 
   assign(playerName) {
@@ -68,7 +68,7 @@ class App extends React.Component {
 
     this.socket.on('gameData', (data) => {
       this.setState({ game: data.game, play: data.game.started });
-      console.log(data.game);
+      //console.log(data.game);
     });
     this.socket.on('startNew', (data) => {
       this.setState({

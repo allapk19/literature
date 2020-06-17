@@ -34,8 +34,8 @@ export default class Card extends React.Component {
   render() {
     if (this.state.path !== '') {
       if (this.props.type === 'ask') {
-        console.log(this.props.checked.suit);
-        console.log(this.props.checked.rank);
+        //console.log(this.props.checked.suit);
+        //console.log(this.props.checked.rank);
         return (
           <div className="askwrapper">
             <label>

@@ -49,7 +49,7 @@ export default class Assign extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("update");
+    //console.log("update");
     let teamOne = [];
     let teamTwo = [];
     let unassigned = [];

@@ -11,7 +11,7 @@ export default class GameForm extends React.Component {
     if (!code) {
       code = this.props.code;
     }
-    console.log(code);
+    //console.log(code);
 
     if (this.props.text === 'Join Game') {
       this.props.socket.emit('join', { name, code }, (response) => {
